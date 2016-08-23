@@ -269,8 +269,9 @@ console.dir(carsByMakeList);
 
 // 18. findCarsByMakeAndModel
 var findCarsByMakeAndModel = function(carList, searchMake, searchModel) {
-	var matchingMakeList = [];
 	var finalMatchList = [];
+	/*
+	var matchingMakeList = [];
 	loop(carList, function(carObject, carIndex) {
 		loop(carObject, function(value, key) {
 			if (key === "make" && value === searchMake) {
@@ -284,6 +285,18 @@ var findCarsByMakeAndModel = function(carList, searchMake, searchModel) {
 				finalMatchList.push(carObject);
 			}
 		});
+	});
+	*/
+	loop(carList, function(carObject, carIndex) {
+		var matchCtr = 0;
+		loop(carObject, function(value, key) {
+			if ((key === "make" && value === searchMake) ||
+				(key === "model" && value === searchModel)) {
+				matchCtr++;
+			}
+		});
+		if (matchCtr === 2)
+			finalMatchList.push(carObject);
 	});
 	return finalMatchList;
 };
@@ -325,8 +338,34 @@ var carsByPriceList = findByPrice(sampleCarList, 20000, 25000);
 console.dir(carsByPriceList);
 
 // 20. VerySpecificSearch
+var verySpecificSearch = function(carList, searchMake, searchModel, searchColor, searchYear, lowEndPrice, highEndPrice) {
+	var finalMatchList = [];
+	loop(carList, function(carObject, carIndex) {
+		var matchCtr = 0;
+		loop(carObject, function(value, key) {
+			if ((key === "make" && value === searchMake) ||
+				(key === "model" && value === searchModel) ||
+				(key === "color" && value === searchColor) ||
+				(key === "year" && value === searchYear) ||
+				(key === "price" && value >=  lowEndPrice && value <= highEndPrice)) {
+				matchCtr++;
+			}
+		});
+		if (matchCtr === 5)
+			finalMatchList.push(carObject);
+	});
 
+	if (finalMatchList.length < 1)
+		return "There are no cars that fit what you're looking for, try cars.com";
 
+	return finalMatchList;
+};
+
+console.log("Cars By Very Specific Search");
+var carsBySpecificSearchList = verySpecificSearch(sampleCarList, "Nissan", "Leaf", "blue", 2011, 20000, 25000);
+console.dir(carsBySpecificSearchList);
+var carsBySpecificSearchList = verySpecificSearch(sampleCarList, "Nissan", "Leaf", "silver", 2001, 20000, 35000);
+console.dir(carsBySpecificSearchList);
 
 }());
 
