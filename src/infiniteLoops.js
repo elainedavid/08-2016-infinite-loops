@@ -3,9 +3,15 @@
 
 var loop = function(collection, callback){
     // ultimate side-effects function
-    for (var i = 0; i < collection.length; i++){
-      callback(collection[i]);
-    }
+    if (Array.isArray(collection) || typeof collection === 'string') {
+    	for (var i = 0; i < collection.length; i++) {
+      		callback(collection[i]);
+    	}
+  	} else if (typeof collection === 'object') {
+    	for (var key in collection) {
+      		callback(collection[key]);
+    	}
+  	}
 };
 
 // 1. countVowels
@@ -66,8 +72,8 @@ var multBy = function(numbersList, multiplier) {
 
 console.log("Multiply by: " + multBy([2,3,4,5,6], 2));
 
-// 6. squareBy 
-var squareBy = function(numbersList, multiplier) {
+// 6. powerOf 
+var powerOf = function(numbersList, multiplier) {
 	var result = [];
 	loop(numbersList, function(number) {
 		result.push(Math.pow(number, multiplier));
@@ -75,7 +81,7 @@ var squareBy = function(numbersList, multiplier) {
 	return result;
 };
 
-console.log("Square by: " + squareBy([2,3,4,5,6], 3));
+console.log("Power of: " + powerOf([2,3,4,5,6], 3));
 
 // 7. capitalizeFirstLetters 
 var capitalizeFirstLetters = function(inputString) {
@@ -90,21 +96,94 @@ var capitalizeFirstLetters = function(inputString) {
 console.log("Capitalize first letter: " + capitalizeFirstLetters("this is not in camel case"));
 
 // 8. collectValues 
+var collectValues = function(inputObject) {
+	var result = [];
+	loop(inputObject, function(value) {
+		result.push(value);
+	})
+	return result;
+};
+
+var ninjaObject = {};
+ninjaObject["martial art"] = "ninjutsu";
+ninjaObject["weapon"] = "katana";
+ninjaObject["skills"] = ["climbing walls", "stealth", "throwing sharp metal stars"];
+
+console.log("Collect Values: " + collectValues(ninjaObject));
 
 // 9. containsValue 
+var containsValue = function(inputObject, targetValue) {
+	var hasValue = false;
+	loop(inputObject, function(value) {
+		if (value === targetValue) {
+			hasValue = true;
+		}
+	});
+	return hasValue;
+};
+
+console.log("Contains Value: " + containsValue(ninjaObject, "katana"));
+console.log("Contains Value: " + containsValue(ninjaObject, "tea preparation"));
+
+// updated loop function
+var loop = function(collection, callback){
+
+  if (Array.isArray(collection)) {
+    for (var i = 0; i < collection.length; i++) {
+      // passing the index as a second argument to our callback
+      callback(collection[i], i);
+    }
+  } else if (typeof collection === 'object') {
+    for (var key in collection) {
+      // passing the key as a second argument
+      callback(collection[key], key);
+    }
+  }
+};
 
 // 10. copyObj
+var copyObj = function(inputObject) {
+	var resultObj = {};
+	loop(inputObject, function(value, key) {
+		resultObj[key] = value;
+	});
+	return resultObj;
+};
 
-// 11. extendObj 
+var ninjaObjectCopy = copyObj(ninjaObject);
+console.log("Copy Object: " + collectValues(ninjaObjectCopy));
+
+// 11. extendObj
+var extendObj = function(targetObject, sourceObject) {
+	loop(sourceObject, function(value, key) {
+		targetObject[key] = value;
+	});
+	return targetObject;
+};
+
+var secondObject = {
+	costume: "black kimono",
+	origin: "Japan"
+};
+
+var extendedObject = extendObj(ninjaObject, secondObject);
+console.log("Extend Object: " + collectValues(extendedObject));
 
 // 12. swapShuffle 
+var swapShuffle = function(numbersList) {
+	loop(numbersList, function(value, index) {
+		numbersList.push(numbersList.splice(index, 1));
+	});
+	return numbersList;
+};
 
+console.log("Swap Shuffle: " + swapShuffle([1,2,3,4,5]));
 
 var sampleCarList = helpers.carFactory(helpers.carDatabase, helpers.carMaker, 100);
 console.dir(sampleCarList);
 
-
 // 13. findBlueCars
+
 
 // 14. findCarsByColor
 
