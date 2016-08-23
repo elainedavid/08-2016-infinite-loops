@@ -199,6 +199,20 @@ var blueCarsList = findBlueCars(sampleCarList);
 console.dir(blueCarsList);
 
 // 14. findCarsByColor
+var findCarsByColor = function(carList, searchColor) {
+	var allMatchingCars = [];
+	loop(carList, function(carObject, carIndex) {
+		loop(carObject, function(value, key) {
+			if (key === "color" && value === searchColor) {
+				allMatchingCars.push(carObject);
+			}
+		});
+	});
+	return allMatchingCars;
+};
+
+var silverCarsList = findCarsByColor(sampleCarList, "silver");
+console.dir(silverCarsList);
 
 // 15. findCarsByYear
 
