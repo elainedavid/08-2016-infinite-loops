@@ -6,7 +6,7 @@ window.helpers = {};
 
 helpers.carMaker = function(year, make, model, color){
   return {
-    yeah: year,
+    year: year,
     make: make,
     model: model,
     color: color,

@@ -196,6 +196,7 @@ var findBlueCars = function(carList) {
 };
 
 var blueCarsList = findBlueCars(sampleCarList);
+console.log("Blue Cars List");
 console.dir(blueCarsList);
 
 // 14. findCarsByColor
@@ -212,17 +213,116 @@ var findCarsByColor = function(carList, searchColor) {
 };
 
 var silverCarsList = findCarsByColor(sampleCarList, "silver");
+console.log("Silver Cars List");
 console.dir(silverCarsList);
 
 // 15. findCarsByYear
+var findCarsByYear = function(carList, searchYear) {
+	var allMatchingCars = [];
+	loop(carList, function(carObject, carIndex) {
+		loop(carObject, function(value, key) {
+			if (key === "year" && value === searchYear) {
+				allMatchingCars.push(carObject);
+			}
+		});
+	});
+	return allMatchingCars;
+};
+
+var carsFrom2011List = findCarsByYear(sampleCarList, 2011);
+console.log("Cars From 2011 List");
+console.dir(carsFrom2011List);
 
 // 16. findCarsBetweenYears
+var findCarsBetweenYears = function(carList, startYear, endYear) {
+	var allMatchingCars = [];
+	loop(carList, function(carObject, carIndex) {
+		loop(carObject, function(value, key) {
+			if (key === "year" && value > startYear && value < endYear) {
+				allMatchingCars.push(carObject);
+			}
+		});
+	});
+	return allMatchingCars;
+};
+
+var carsBetweenList = findCarsBetweenYears(sampleCarList, 2001, 2005);
+console.log("Cars Between 2001 and 2005");
+console.dir(carsBetweenList);
 
 // 17. findCarsByMake
+var findCarsByMake = function(carList, searchMake) {
+	var allMatchingCars = [];
+	loop(carList, function(carObject, carIndex) {
+		loop(carObject, function(value, key) {
+			if (key === "make" && value === searchMake) {
+				allMatchingCars.push(carObject);
+			}
+		});
+	});
+	return allMatchingCars;
+};
+
+var carsByMakeList = findCarsByMake(sampleCarList, "Toyota");
+console.log("Cars By Toyota");
+console.dir(carsByMakeList);
 
 // 18. findCarsByMakeAndModel
+var findCarsByMakeAndModel = function(carList, searchMake, searchModel) {
+	var matchingMakeList = [];
+	var finalMatchList = [];
+	loop(carList, function(carObject, carIndex) {
+		loop(carObject, function(value, key) {
+			if (key === "make" && value === searchMake) {
+				matchingMakeList.push(carObject);
+			}
+		});
+	});
+	loop(matchingMakeList, function(carObject, carIndex) {
+		loop(carObject, function(value, key) {
+			if (key === "model" && value === searchModel) {
+				finalMatchList.push(carObject);
+			}
+		});
+	});
+	return finalMatchList;
+};
+
+var carsByMakeAndModelList = findCarsByMakeAndModel(sampleCarList, "Nissan", "Leaf");
+console.log("Cars That Are Nissan Leafs");
+console.dir(carsByMakeAndModelList);
+
 
 // 19. Random Price Generator
+var randomPriceGenerator = function(carList, minRange, maxRange) {
+	loop(carList, function(carObject, carIndex) {
+		carObject["price"] = Math.round(Math.random() * (maxRange - minRange) + minRange);
+	});
+};
+
+console.log("RandomPriceGenerator");
+randomPriceGenerator(sampleCarList, 15000, 50000);
+console.dir(sampleCarList);
+
+var findByPrice = function(carList, lowEndPrice, highEndPrice) {
+	var allMatchingCars = [];
+	loop(carList, function(carObject, carIndex) {
+		loop(carObject, function(value, key) {
+			if (key === "price" && value >=  lowEndPrice && value <= highEndPrice) {
+				allMatchingCars.push(carObject);
+			}
+		});
+	});
+
+	if (allMatchingCars.length < 1)
+		return "There are no cars that fit what you're looking for, try cars.com";
+
+	return allMatchingCars;
+};
+
+console.log("Cars By Price");
+var carsByPriceList = findByPrice(sampleCarList, 20000, 25000);
+console.dir(carsByPriceList);
 
 // 20. VerySpecificSearch
 
