@@ -183,7 +183,20 @@ var sampleCarList = helpers.carFactory(helpers.carDatabase, helpers.carMaker, 10
 console.dir(sampleCarList);
 
 // 13. findBlueCars
+var findBlueCars = function(carList) {
+	var allBlueCars = [];
+	loop(carList, function(carObject, carIndex) {
+		loop(carObject, function(value, key) {
+			if (key === "color" && value === "blue") {
+				allBlueCars.push(carObject);
+			}
+		});
+	});
+	return allBlueCars;
+};
 
+var blueCarsList = findBlueCars(sampleCarList);
+console.dir(blueCarsList);
 
 // 14. findCarsByColor
 
